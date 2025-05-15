@@ -4,14 +4,35 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 
 class MockHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
+    def do_POST(self):
         self.send_response(200)
+        self.send_header('Content-type', 'application/json; charset=utf-8')
         self.end_headers()
         response = """
-        これはテスト用のGeminiレスポンスです
-        ここに任意のテキストを記述できます
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {"text": "ここに生成されたテキストが入ります"}
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0,
+      "safetyRatings": [
+        {
+          "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+          "probability": "NEGLIGIBLE"
+        }
+      ]
+    }
+  ],
+  "promptFeedback": {
+    "safetyRatings": []
+  }
+}
         """
-
         self.wfile.write(response.encode('utf-8'))
 
 
