@@ -37,7 +37,11 @@ to quickly create a Cobra application.`,
 		mc := mawinter.NewMawinterClient(mawinterArg)
 		gc := gemini.NewGeminiClient(useGeminiModel, os.Getenv("GEMINI_API_KEY"), geminiArg)
 		fc := fileoperator.NewFileOperator()
-		service.NewService(gc, mc, fc).Start(cmd.Context())
+		err := service.NewService(gc, mc, fc).Start(cmd.Context())
+		if err != nil {
+			slog.Error("start command error", "err", err)
+			os.Exit(1)
+		}
 	},
 }
 
