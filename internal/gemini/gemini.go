@@ -30,15 +30,17 @@ func NewGeminiClient(useModel string, geminiAPIKey string, customEndpoint string
 func (g *GeminiClient) Post(ctx context.Context, prompt string) (string, error) {
 	var client *genai.Client
 	var err error
+	fmt.Println(g.CustomEndpoint)
 	if g.CustomEndpoint != "" {
-		client, err = genai.NewClient(ctx, option.WithAPIKey(g.GeminiAPIKey))
+		slog.Info("custom endpoint is used")
+		client, err = genai.NewClient(ctx, option.WithAPIKey(g.GeminiAPIKey), option.WithEndpoint(g.CustomEndpoint))
 		if err != nil {
 			slog.Error("gemini call error", "err", err)
 			return "", err
 		}
 		defer client.Close()
 	} else {
-		client, err = genai.NewClient(ctx, option.WithAPIKey(g.GeminiAPIKey), option.WithEndpoint(g.CustomEndpoint))
+		client, err = genai.NewClient(ctx, option.WithAPIKey(g.GeminiAPIKey))
 		if err != nil {
 			slog.Error("gemini call error", "err", err)
 			return "", err

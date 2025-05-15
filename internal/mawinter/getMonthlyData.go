@@ -10,6 +10,10 @@ type MawinterClient struct {
 }
 
 func NewMawinterClient(endpoint string) *MawinterClient {
+	if endpoint == "mock" {
+		endpoint = "http://localhost:8080/v2/record"
+	}
+
 	return &MawinterClient{
 		Endpoint: endpoint,
 	}
