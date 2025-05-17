@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"time"
 )
@@ -64,7 +65,8 @@ func (s *Service) Start(ctx context.Context) error {
 	}
 
 	// gemini API のレスポンスをファイルに書き出す
-	err = s.FileOperator.WriteTxtFile("adv_res.txt", advRes)
+	responseFileName := fmt.Sprintf("gemini_%s.txt", time.Now().Format("20060102"))
+	err = s.FileOperator.WriteTxtFile(responseFileName, advRes)
 	if err != nil {
 		slog.Error("failed to write response from gemini", "error", err)
 		return err
