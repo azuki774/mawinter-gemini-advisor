@@ -6,15 +6,15 @@ SRC_DIR := .
 BUILD_DIR := bin
 GO := go
 
-# Default target
-.PHONY: all
-all: build
-
 # Build the Go binary (static build)
-.PHONY: build
-build:
+.PHONY: bin
+bin:
 	@mkdir -p $(BUILD_DIR)
 	CGO_ENABLED=0 $(GO) build -tags netgo -o $(BUILD_DIR)/$(APP_NAME) $(SRC_DIR)
+
+.PHONY: build
+build:
+	docker build -t azuki774/mawinter-gemini-advisor -f build/Dockerfile .
 
 # Clean up build artifacts
 .PHONY: clean
