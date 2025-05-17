@@ -20,7 +20,7 @@ func NewMawinterClient(endpoint string) *MawinterClient {
 }
 
 func (m *MawinterClient) GetMonthlyData(yyyymm string) (string, error) {
-	endpoint := m.Endpoint + "?yyyymm=" + yyyymm
+	endpoint := m.Endpoint + "?yyyymm=" + yyyymm + "&num=9999"
 	res, err := http.Get(endpoint)
 	if err != nil {
 		return "", err
@@ -32,5 +32,6 @@ func (m *MawinterClient) GetMonthlyData(yyyymm string) (string, error) {
 		return "", err
 	}
 
-	return string(body), nil
+	resText := string(body) + "\n"
+	return resText, nil
 }
